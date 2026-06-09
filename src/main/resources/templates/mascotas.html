@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mantenimiento de Mascotas</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<div class="admin-shell">
+    <div class="sidebar-backdrop" data-sidebar-close></div>
+
+    <aside class="admin-sidebar" id="adminSidebar" aria-label="Main navigation">
+        <div class="sidebar-header">
+            <a class="brand-mark" href="#" aria-label="adminHMD dashboard">
+                <span class="brand-icon"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span>
+                <span class="brand-copy">
+            <span class="brand-title">CRUD Web</span>
+            <span class="brand-subtitle">Proyecto Spring</span>
+          </span>
+            </a>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a class="nav-link active" href="#" aria-current="page">
+                <span class="nav-icon"><i class="bi bi-table" aria-hidden="true"></i></span>
+                <span class="nav-text">Mascotas</span>
+            </a>
+        </nav>
+    </aside>
+
+    <div class="admin-main">
+        <nav class="navbar admin-navbar navbar-expand bg-white">
+            <div class="container-fluid px-3 px-lg-4">
+                <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar" aria-expanded="true" aria-label="Toggle sidebar">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+
+        <main class="dashboard-content">
+            <div class="container-fluid px-3 px-lg-4 py-4">
+                <div class="page-heading">
+                    <div class="page-heading-copy">
+                        <span class="page-icon"><i class="bi bi-table" aria-hidden="true"></i></span>
+                        <div>
+                            <h1 class="h3 mb-1">Mantenimiento de Mascotas</h1>
+                            <p class="text-muted mb-0">Gestión y listado de mascotas registradas en el sistema.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="panel">
+                    <div class="panel-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2 class="h5 mb-1 section-title">Listado de Mascotas</h2>
+                        </div>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalMascota" onclick="prepararNuevo()">Nueva</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0" id="mascotasTable">
+                            <thead class="table-light">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Edad</th>
+                                <th>Raza</th>
+                                <th>Observaciones</th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbodyMascotas">
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer class="admin-footer">
+            <div class="container-fluid px-3 px-lg-4 text-center">
+                <span>Desarrollado por: Federico Sanchez Ibarra, Angel Emmanuel Sosa Escobedo, Marcos, Lesli y Malitzin Judith Ruiz Mercado.</span>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<div class="modal fade" id="modalMascota" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalMascotaTitle">Agregar Mascota</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formMascota">
+                    <input type="hidden" id="mascotaId">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre de la mascota" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edad" class="form-label">Edad:</label>
+                        <input type="number" class="form-control" id="edad" placeholder="Ingrese la edad de la mascota" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="raza" class="form-label">Raza</label>
+                        <select class="form-select" id="raza">
+                            <option value="Gran Perro">Gran Perro</option>
+                            <option value="Perro Pequeño">Perro Pequeño</option>
+                            <option value="Gato">Gato</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="observaciones" class="form-label">Observaciones</label>
+                        <textarea class="form-control" id="observaciones" rows="3" placeholder="Ingrese las observaciones: cuidados, alimentación, etc"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnGuardar" onclick="guardarMascota()">Agregar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalEliminar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Eliminar mascota</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="textoEliminar">¿Está seguro de eliminar la mascota?</p>
+                <input type="hidden" id="eliminarMascotaId">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="confirmarEliminar()">Eliminar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/main.js"></script>
+
+<script src="/js/mascotas.js"></script>
+</body>
+</html>
